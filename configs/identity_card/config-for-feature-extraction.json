@@ -1,0 +1,203 @@
+{
+  "roi_extract": {
+    "front": [
+      {
+        "point": [
+          263,
+          40,
+          548,
+          74
+        ],
+        "type": "text",
+        "name": "Identification_Number",
+        "lang": "eng,tha",
+        "tesseract_config": "--oem 1 -c tessedit_char_whitelist=0123456789",
+        "blocklist": "",
+        "allowlist": "",
+        "provider": "tesseract"
+      },
+      {
+        "point": [
+          170,
+          79,
+          550,
+          124
+        ],
+        "type": "text",
+        "name": "FullNameTH",
+        "lang": "tha",
+        "tesseract_config": "--dpi 300 --psm 7 --oem 1",
+        "blocklist": "",
+        "allowlist": "",
+        "provider": "easyocr"
+      },
+      {
+        "point": [
+          238,
+          110,
+          432,
+          125
+        ],
+        "type": "text",
+        "name": "NameEN",
+        "lang": "eng",
+        "tesseract_config": "--dpi 300 --psm 13 --oem 1 -c tessedit_char_whitelist='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz. '",
+        "blocklist": "",
+        "allowlist": "",
+        "provider": "tesseract"
+      },
+      {
+        "point": [
+          269,
+          134,
+          454,
+          152
+        ],
+        "type": "text",
+        "name": "LastNameEN",
+        "lang": "eng",
+        "tesseract_config": "--dpi 300 --psm 13 --oem 1 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "blocklist": "",
+        "allowlist": "",
+        "provider": "tesseract"
+      },
+      {
+        "point": [
+          263,
+          160,
+          411,
+          188
+        ],
+        "type": "text",
+        "name": "BirthdayTH",
+        "lang": "tha",
+        "tesseract_config": "--dpi 300",
+        "blocklist": "",
+        "allowlist": "",
+        "provider": "easyocr"
+      },
+      {
+        "point": [
+          300,
+          185,
+          443,
+          211
+        ],
+        "type": "text",
+        "name": "BirthdayEN",
+        "lang": "eng",
+        "tesseract_config": "--dpi 300 --psm 7 --oem 1",
+        "blocklist": "",
+        "allowlist": "",
+        "provider": "tesseract"
+      },
+      {
+        "point": [
+          250,
+          209,
+          319,
+          234
+        ],
+        "type": "text",
+        "name": "Religion",
+        "lang": "tha,eng",
+        "tesseract_config": "--dpi 300 --psm 7 --oem 1",
+        "blocklist": "",
+        "allowlist": "",
+        "provider": "easyocr"
+      },
+      {
+        "point": [
+          60,
+          237,
+          410,
+          295
+        ],
+        "type": "text",
+        "name": "Address",
+        "lang": "tha,eng",
+        "tesseract_config": "--dpi 300 --psm 13 --oem 1",
+        "blocklist": "",
+        "allowlist": "",
+        "provider": "easyocr"
+      },
+      {
+        "point": [
+          55,
+          280,
+          145,
+          302
+        ],
+        "type": "text",
+        "name": "DateOfIssueTH",
+        "lang": "tha",
+        "tesseract_config": "--dpi 300",
+        "blocklist": "",
+        "allowlist": "",
+        "provider": "easyocr"
+      },
+      {
+        "point": [
+          55,
+          314,
+          152,
+          333
+        ],
+        "type": "text",
+        "name": "DateOfIssueEN",
+        "lang": "eng",
+        "tesseract_config": "--dpi 300 --psm 7 --oem 1",
+        "blocklist": "",
+        "allowlist": "",
+        "provider": "tesseract"
+      },
+      {
+        "point": [
+          332,
+          280,
+          436,
+          305
+        ],
+        "type": "text",
+        "name": "DateOfExpiryTH",
+        "lang": "tha",
+        "tesseract_config": "--dpi 300",
+        "blocklist": "",
+        "allowlist": "",
+        "provider": "easyocr"
+      },
+      {
+        "point": [
+          332,
+          314,
+          441,
+          335
+        ],
+        "type": "text",
+        "name": "DateOfExpiryEN",
+        "lang": "eng",
+        "tesseract_config": "--dpi 300 --psm 7 --oem 1",
+        "blocklist": "",
+        "allowlist": "",
+        "provider": "tesseract"
+      }
+    ],
+    "back": [
+      {
+        "point": [
+          237,
+          298,
+          626,
+          345
+        ],
+        "type": "text",
+        "name": "LaserCode",
+        "lang": "eng",
+        "tesseract_config": "--dpi 300 --psm 13 --oem 1 -c tessedit_char_whitelist='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'",
+        "blocklist": "",
+        "allowlist": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        "provider": "easyocr"
+      }
+    ]
+  }
+}
