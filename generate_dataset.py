@@ -154,8 +154,6 @@ def generate_base_images(num_images, generator, renderer, field_definitions,
 
 
 def augment_full_cards(base_dir, augmentor, output_dir):
-    print("\nStep 3: Augmenting full cards...")
-
     base_image_files = list(Path(base_dir).glob('*.jpg'))
     base_image_files.sort()
 
