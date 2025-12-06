@@ -86,7 +86,7 @@ python generate_dataset.py --output dataset_en --num-images 1000 --num-aug 2 --l
 │   │   └── card_0000_aug_001.jpg
 │   └── labels_bbox/
 │       └── card_0000_aug_000.json
-└── final_dataset/           # ← Ready for EasyOCR
+└── final_dataset/           # ← Ready for Train OCR
     ├── images/
     │   ├── field_00000.jpg
     │   ├── field_00001.jpg
