@@ -11,19 +11,21 @@ class IDCardDataGenerator:
             male_names_path='../datasets/thai-names-corpus/male_names_th.txt',
             female_names_path='../datasets/thai-names-corpus/female_names_th.txt',
             family_names_path='../datasets/thai-names-corpus/family_names_th.txt',
-            address_data_path='../datasets/thai-province/province_with_district_and_sub_district.json'):
+            address_data_path='../datasets/thai-province/province_with_district_and_sub_district.json',
+            streets_data_path='../datasets/thai-province/thai_streets_all.json'):
         self.male_names = self._load_names(male_names_path)
         self.female_names = self._load_names(female_names_path)
         self.family_names = self._load_names(family_names_path)
         self.current_date = datetime.now()
         self.address_data = self._load_address_data(address_data_path)
+        self.streets_data = self._load_streets_data(streets_data_path)
 
     def _load_address_data(self, filepath: str):
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
                 return json.load(f)
         except Exception as e:
-            print(f"⚠️ Warning: Could not load address data: {e}")
+            print(f"Warning: Could not load address data: {e}")
             return []
 
     def _load_names(self, filepath: str) -> List[str]:
@@ -32,8 +34,16 @@ class IDCardDataGenerator:
                 names = [line.strip() for line in f if line.strip()]
             return names
         except Exception as e:
-            print(f"❌ Error loading {filepath}: {e}")
+            print(f"Error loading {filepath}: {e}")
             return []
+
+    def _load_streets_data(self, filepath: str):
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Warning: Could not load streets data: {e}")
+            return {}
 
     def _transliterate_name(self, thai_name: str) -> str:
         try:
@@ -52,7 +62,7 @@ class IDCardDataGenerator:
             english = romanize(thai_name, engine='royin')
             return english.capitalize()
         except Exception as e:
-            # print(f"⚠️ Warning: Could not transliterate '{thai_name}': {e}")
+            # print(f"Warning: Could not transliterate '{thai_name}': {e}")
             return thai_name
         
     def generate_name(self, gender: str = 'random', 
@@ -211,63 +221,48 @@ class IDCardDataGenerator:
         religion_weights = [r[1] for r in religions]
         
         return random.choices(religion_names, weights=religion_weights)[0]
-    
+
     def generate_address(self) -> dict:
-        # ถ้าโหลดข้อมูลไม่สำเร็จ ใช้ fallback
         if not self.address_data:
-            return {
-                'Address': 'บ้านเลขที่ 123 ถนนสุขุมวิท แขวงคลองเตย เขตคลองเตย กรุงเทพมหานคร'
-            }
-        
-        # สุ่มจังหวัด
+            return {'Address': 'บ้านเลขที่ 123 ถนนสุขุมวิท แขวงคลองเตย เขตคลองเตย กรุงเทพมหานคร'}
+
         province = random.choice(self.address_data)
         province_name_th = province['name_th']
-        
-        # สุ่มอำเภอ/เขต
+
         if not province.get('districts'):
             district_name_th = ""
             sub_district_name_th = ""
         else:
             district = random.choice(province['districts'])
             district_name_th = district['name_th']
-            
-            # สุ่มตำบล/แขวง
+
             if not district.get('sub_districts'):
                 sub_district_name_th = ""
             else:
                 sub_district = random.choice(district['sub_districts'])
                 sub_district_name_th = sub_district['name_th']
-        
-        # สุ่มบ้านเลขที่
-        house_number = self._generate_house_number()
-        
-        # สุ่มหมู่บ้าน (optional)
-        has_moo = random.random() < 0.3  # 30% มีหมู่
-        moo = f" หมู่ {random.randint(1, 15)}" if has_moo else ""
-        
-        # สุ่มถนน (optional)
-        street_names = [
-            'สุขุมวิท', 'พระราม', 'เพชรบุรี', 'ราชดำริ', 'วิภาวดีรังสิต',
-            'ลาดพร้าว', 'รัชดาภิเษก', 'สาทร', 'สีลม', 'พหลโยธิน'
-        ]
-        has_street = random.random() < 0.4  # 40% มีชื่อถนน
-        street = f" ถนน{random.choice(street_names)}" if has_street else ""
 
-        # ประกอบที่อยู่
-        # Format: บ้านเลขที่ [หมู่] [ถนน] ตำบล อำเภอ จังหวัด
-        
-        # เช็คว่าเป็นกรุงเทพฯ หรือไม่
+        house_number = self._generate_house_number()
+
+        street = ""
+        if self.streets_data and province_name_th in self.streets_data:
+            streets_list = self.streets_data[province_name_th].get('all_streets', [])
+            if streets_list:
+                selected_street = random.choice(streets_list)
+                selected_street = selected_street.replace('ซอย', 'ซ.')
+                selected_street = selected_street.replace('ถนน', 'ถ.')
+                street = f" {selected_street}"
+
         is_bangkok = province_name_th == "กรุงเทพมหานคร"
-        
+
         if is_bangkok:
             district_prefix = "" if district_name_th.startswith("เขต") else "เขต"
-            address = f"{house_number}{street}{moo} แขวง{sub_district_name_th} {district_prefix}{district_name_th} {province_name_th}"
+            address = f"{house_number}{street} แขวง{sub_district_name_th} {district_prefix}{district_name_th} {province_name_th}"
         else:
-            # จังหวัดอื่น ใช้ ตำบล/อำเภอ/จังหวัด
-            tambon = f" ตำบล{sub_district_name_th}" if sub_district_name_th else ""
-            amphoe = f" อำเภอ{district_name_th}" if district_name_th else ""
-            address = f"{house_number}{street}{moo}{tambon}{amphoe} จังหวัด{province_name_th}"
-        
+            tambon = f" ต.{sub_district_name_th}" if sub_district_name_th else ""
+            amphoe = f" อ.{district_name_th}" if district_name_th else ""
+            address = f"{house_number}{street}{tambon}{amphoe} จ.{province_name_th}"
+
         return {
             'Address': address.strip(),
             '_province': province_name_th,

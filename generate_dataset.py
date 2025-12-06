@@ -48,7 +48,8 @@ def main():
         male_names_path='datasets/thai-names-corpus/male_names_th.txt',
         female_names_path='datasets/thai-names-corpus/female_names_th.txt',
         family_names_path='datasets/thai-names-corpus/family_names_th.txt',
-        address_data_path='datasets/thai-province/province_with_district_and_sub_district.json'
+        address_data_path='datasets/thai-province/province_with_district_and_sub_district.json',
+        streets_data_path='datasets/thai-province/thai_streets_all.json'
     )
 
     renderer = IDCardRenderer(

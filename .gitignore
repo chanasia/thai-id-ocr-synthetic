@@ -28,7 +28,7 @@ Thumbs.db
 
 # Output directories
 outputs/
-dataset*/
+dataset_*/
 my_data*/
 *.jpg
 *.jpeg
