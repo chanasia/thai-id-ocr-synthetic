@@ -138,6 +138,9 @@ def generate_base_images(num_images, generator, renderer, field_definitions,
             field_name = field['name']
             text = sample_data.get(field_name, "")
 
+            if field_name == 'Address':
+                text = f"ที่อยู่ {text}"
+
             boxes.append({
                 'class_id': idx,
                 'class_name': field_name,
