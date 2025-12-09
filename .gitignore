@@ -49,3 +49,5 @@ my_data*/
 .pytest_cache/
 .coverage
 htmlcov/
+all_dict.txt
+test.py
