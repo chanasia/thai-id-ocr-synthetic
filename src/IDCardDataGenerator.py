@@ -5,6 +5,7 @@ from . import constants
 from datetime import datetime, timedelta
 import json
 from dateutil.relativedelta import relativedelta
+import re
 
 class IDCardDataGenerator:
     def __init__(self, 
@@ -45,25 +46,27 @@ class IDCardDataGenerator:
             print(f"Warning: Could not load streets data: {e}")
             return {}
 
+    def _remove_thai_characters(self, text: str) -> str:
+        return re.sub(r'[\u0E00-\u0E7F]', '', text).strip()
+
     def _transliterate_name(self, thai_name: str) -> str:
         try:
             english = romanize(thai_name, engine='thai2rom')
-            return english.capitalize()
+            return self._remove_thai_characters(english.capitalize())
         except:
             pass
-        
+
         try:
             english = romanize(thai_name, engine='thai2rom_onnx')
-            return english.capitalize()
+            return self._remove_thai_characters(english.capitalize())
         except:
             pass
-        
+
         try:
             english = romanize(thai_name, engine='royin')
-            return english.capitalize()
+            return self._remove_thai_characters(english.capitalize())
         except Exception as e:
-            # print(f"Warning: Could not transliterate '{thai_name}': {e}")
-            return thai_name
+            return "Unknown"
         
     def generate_name(self, gender: str = 'random', 
         marital_status: str = 'random') -> Dict[str, str]:
